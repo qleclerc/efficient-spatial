@@ -1,4 +1,4 @@
-# efficient-spatial
+# efficientspatial
 
 Set of functions for spatial simulation of an epidemic in Great Britain at various resolutions.
 
