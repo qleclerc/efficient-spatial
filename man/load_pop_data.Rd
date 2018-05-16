@@ -7,11 +7,11 @@
 load_pop_data()
 }
 \value{
-Creates four RasterLayer objects and one matrix object in the Global Environment.
+Creates four RasterLayer objects in the Global Environment.
 }
 \description{
 Loads the UK total population density raster file from the working directory, and divides it into
-             4 objects corresponding to the four age groups. Also creates the age contact matrix.
+             4 objects corresponding to the four age groups.
 }
 \details{
 This function is dangerous in the sense that it assigns variables to the Global Environment
@@ -23,7 +23,6 @@ This function is dangerous in the sense that it assigns variables to the Global 
 }
 \examples{
 load_pop_data()
-View(contact_mat)
 View(s0_4)
 
 }
