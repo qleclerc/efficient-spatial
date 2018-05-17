@@ -4,7 +4,7 @@
 \alias{calc_dist_mat}
 \title{Calculates the distance matrix}
 \usage{
-calc_dist_mat(raster_l)
+calc_dist_mat(rasterl)
 }
 \arguments{
 \item{raster_l}{The RasterLayer object to use to calculate the distance matrix.}
@@ -13,7 +13,7 @@ calc_dist_mat(raster_l)
 Returns one matrix object.
 }
 \description{
-Calculates the distance between all points in a RasterLayer object.
+Calculates the distance between all populated areas in a RasterLayer object.
 }
 \details{
 This function calculates the distance matrix once to avoid doing it for every generation during an
@@ -25,6 +25,6 @@ This function calculates the distance matrix once to avoid doing it for every ge
          to 4 years old in the UK, you can use it for any RasterLayer of the UK of identical resolution)
 }
 \examples{
-dist_mat = calc_dist_mat(s0_04)
+dist_mat = calc_dist_mat(total_pop_data)
 
 }
