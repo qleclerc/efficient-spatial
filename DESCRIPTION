@@ -2,8 +2,8 @@ Package: efficientspatial
 Type: Package
 Title: Efficient Spatial Modelling of Epidemics
 Version: 0.1.0
-Author: Quentin Leclerc
-Maintainer: Quentin Leclerc (ql3114@ic.ac.uk)
+Author: Quentin Leclerc [aut, cre]
+Maintainer: Quentin Leclerc <ql3114@ic.ac.uk>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
