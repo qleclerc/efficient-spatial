@@ -7,22 +7,18 @@
 load_pop_data()
 }
 \value{
-Creates four RasterLayer objects in the Global Environment.
+Creates one RasterLayer object in the Global Environment.
 }
 \description{
-Loads the UK total population density raster file from the working directory, and divides it into
-             4 objects corresponding to the four age groups.
+Loads the UK total population density file from the working directory as a RasterLayer object.
 }
 \details{
-This function is dangerous in the sense that it assigns variables to the Global Environment
+This function is dangerous in the sense that it assigns a variable to the Global Environment
          automatically. If there are any errors, try running it with an empty Global Environment.
-         The approach of loading one raster file then subdividing it means that any person wishing to use this
-         code only needs to have one .asc file in storage, compared to four.
-         Note that this will work most effectively if your computer has at least 8Gb of RAM. Otherwise, the
-         objects will not be loaded in memory and computation will be three times longer!
+         Note that the function attempts to load the file in the RAM if possible for faster computation later.
 }
 \examples{
 load_pop_data()
-View(s0_4)
+View(total_pop_data)
 
 }

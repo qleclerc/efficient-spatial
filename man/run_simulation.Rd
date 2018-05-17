@@ -4,7 +4,7 @@
 \alias{run_simulation}
 \title{Runs the spatial epidemic simulation}
 \usage{
-run_simulation()
+run_simulation(raster)
 }
 \arguments{
 \item{raster_list}{A list containing the names of the four RasterLayers (one for each age category).}
