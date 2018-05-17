@@ -1,6 +1,6 @@
 #' @title Calculates the distance matrix
 #'
-#' @description Calculates the distance between all points in a RasterLayer object.
+#' @description Calculates the distance between all populated areas in a RasterLayer object.
 #'
 #' @param raster_l The RasterLayer object to use to calculate the distance matrix.
 #'
@@ -15,21 +15,21 @@
 #' @return Returns one matrix object.
 #'
 #' @examples
-#' dist_mat = calc_dist_mat(s0_04)
+#' dist_mat = calc_dist_mat(total_pop_data)
 #'
 #' @export
 
 
-calc_dist_mat = function(raster_l){
+calc_dist_mat = function(rasterl){
 
-  if(class(raster_l) != "RasterLayer"){
+  if(class(rasterl) != "RasterLayer"){
 
     stop("The specified object is not a RasterLayer. Please provide a RasterLayer object for this function.")
 
   }
 
   #extracts number of cells in RasterLayer object:
-  nc = raster::ncell(raster_l)
+  nc = raster::ncell(rasterl)
 
   #creates empty distance matrix:
   dist_mat = matrix(nrow=nc, ncol=nc)
@@ -37,23 +37,18 @@ calc_dist_mat = function(raster_l){
   #specify this so that cells have a distance to themselves equal to 0:
   dist_mat[,] = 0
 
-  #loops intelligently, only one calculation per (i,j) pair:
-  for (i in 1:(nc-1)) {
+  #identify which cells have non-NA values:
+  good_values = which(!is.na(rasterl@data@values))
 
-    for (j in (i+1):nc) {
+  #loops intelligently, only one calculation per (i,j) pair, and only calculates for non-NA cells:
+  for (i in good_values[1:(length(good_values)-1)]) {
 
-      #if a cell contains an NA value, its distance with every other cell is set to NA:
-      if(is.na(raster::values(raster_l)[i]) | is.na(raster::values(raster_l)[j])){
+    for (j in (i+1):length(good_values)) {
 
-        dist_mat[i,j] = NA
-        dist_mat[j,i] = NA
-
-      } else {
-
-          x1 = raster::xFromCell(raster_l,i)
-          y1 = raster::yFromCell(raster_l,i)
-          x2 = raster::xFromCell(raster_l,j)
-          y2 = raster::yFromCell(raster_l,j)
+          x1 = raster::xFromCell(rasterl,i)
+          y1 = raster::yFromCell(rasterl,i)
+          x2 = raster::xFromCell(rasterl,j)
+          y2 = raster::yFromCell(rasterl,j)
 
           dist = sqrt((x1-x2)^2+(y1-y2)^2)
 
@@ -61,21 +56,11 @@ calc_dist_mat = function(raster_l){
 
       }
     }
-  }
 
-  #lazy approach: correct matrix post calculations to only keep distances between non-NA cells:
-  good_values = which(!is.na(raster_l@data@values))
-  dist_mat = dist_mat[good_values,good_values]
-
-  #find a way to do that before calculations to save some time!
+  #only keep rows and columns for non-NA cells:
+  dist_mat = dist_mat[good_values, good_values]
 
   return(dist_mat)
 
 }
-
-
-
-
-#for later: consider adding a check that the distance matrix is of correct size
-  #i.e. not using a matrix calculated at res 100 for res 1000
 
