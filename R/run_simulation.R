@@ -46,12 +46,17 @@
 #' @export
 
 
-run_simulation = function(raster_list = c(t0_04, t05_19, t20_64, t65plus)){
+run_simulation = function(raster){
 
-  good_values = which(!is.na(raster_list[1]@data@values))
+  #change to calculate age structured pop here
+  #so extract total, then divide in four
+
+  #select only the areas with non-NA values:
+  good_values = which(!is.na(raster@data@values))
+
 
   #SETTING UP POPULATION:
-  N = array(sapply(r_list, FUN=function(x) return(x@data@values[good_values])), dim=c(na_values,4))
+  N = array(sapply(raster_list, FUN=function(x) return(x@data@values[good_values])), dim=c(length(good_values),4))
   #this way, i in the array is the area and j the age group e.g. N[1,1] gives pop 0-4 in area 1
   S = N
   I = array(0, dim=dim(N))
@@ -59,8 +64,33 @@ run_simulation = function(raster_list = c(t0_04, t05_19, t20_64, t65plus)){
 
 
   #SEEDING:
+  #effectively start in area with highest density (London):
+  start_area = which.max(N[,1])
+
+  #starting percent of infected (probably specify that as function parameter):
+  start_fraction = 0.01
+
+  #in which pop to start? could assign randomly or select one pop
+  #here, start with 20-64:
+  S[start_area,3] = S[start_area,3] - N[start_area,3]*start_fraction
+  I[start_area,3] = I[start_area,3] + N[start_area,3]*start_fraction
 
 
+  #note: no need to keep new values, only retain sum of all infected, then split this to get daily incidence
+  #MODEL
+  for(t in 1:times){
+    for(i in 1:length(good_values)){
+      for(j in 1:4){
+        for(ii in 1:length(good_values)){
+          for(jj in 1:4){
+
+
+
+          }
+        }
+      }
+    }
+  }
 }
 
 

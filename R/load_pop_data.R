@@ -1,20 +1,16 @@
 #' @title Loads required data for the simulation
 #'
-#' @description Loads the UK total population density raster file from the working directory, and divides it into
-#'              4 objects corresponding to the four age groups.
+#' @description Loads the UK total population density file from the working directory as a RasterLayer object.
 #'
-#' @details This function is dangerous in the sense that it assigns variables to the Global Environment
+#' @details This function is dangerous in the sense that it assigns a variable to the Global Environment
 #'          automatically. If there are any errors, try running it with an empty Global Environment.
-#'          The approach of loading one raster file then subdividing it means that any person wishing to use this
-#'          code only needs to have one .asc file in storage, compared to four.
-#'          Note that this will work most effectively if your computer has at least 8Gb of RAM. Otherwise, the
-#'          objects will not be loaded in memory and computation will be three times longer!
+#'          Note that the function attempts to load the file in the RAM if possible for faster computation later.
 #'
-#' @return Creates four RasterLayer objects in the Global Environment.
+#' @return Creates one RasterLayer object in the Global Environment.
 #'
 #' @examples
 #' load_pop_data()
-#' View(s0_4)
+#' View(total_pop_data)
 #'
 #' @export
 
@@ -22,9 +18,15 @@
 load_pop_data = function(){
 
   #check is .asc file is present in working directory:
-  if(identical(list.files(pattern = "total_UK_population.asc"),character(0))){
+  if(identical(list.files(pattern = ".asc"),character(0))){
 
-    stop("No total_UK_population.asc file in working directory! Make sure that it is there.", call. = FALSE)
+    stop("No .asc file in working directory! Make sure that it is there")
+
+  }
+
+  if(length(list.files(pattern = ".asc")) > 1){
+
+    stop("More than one .asc file detected in working directory! Make sure that only the total population .asc file is there")
 
   }
 
@@ -38,10 +40,6 @@ load_pop_data = function(){
 
   }
 
-  #subdivide population in four groups and create objects in Global Environment:
-  assign("s0_04", raster::calc(s, fun = function(x) x*(5/80)), envir = .GlobalEnv)
-  assign("s05_19", raster::calc(s, fun = function(x) x*(15/80)), envir = .GlobalEnv)
-  assign("s20_64", raster::calc(s, fun = function(x) x*(45/80)), envir = .GlobalEnv)
-  assign("s65plus", raster::calc(s, fun = function(x) x*(16/80)), envir = .GlobalEnv)
+  assign("total_pop_data", s, envir = .GlobalEnv)
 
 }
