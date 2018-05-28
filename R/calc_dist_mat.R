@@ -22,33 +22,38 @@
 
 calc_dist_mat = function(rasterl){
 
+  #safety check:
   if(class(rasterl) != "RasterLayer"){
 
     stop("The specified object is not a RasterLayer. Please provide a RasterLayer object for this function.")
 
   }
 
-  #extracts number of cells in RasterLayer object:
-  nc = raster::ncell(rasterl)
-
-  #creates empty distance matrix:
-  dist_mat = matrix(nrow=nc, ncol=nc)
-
-  #specify this so that cells have a distance to themselves equal to 0:
-  dist_mat[,] = 0
-
   #identify which cells have non-NA values:
   good_values = which(!is.na(rasterl@data@values))
 
+  #creates empty distance matrix:
+  dist_mat = matrix(0, nrow=length(good_values), ncol=length(good_values))
+
+  #extract values once:
+  x = raster::xFromCell(rasterl, good_values)
+  y = raster::yFromCell(rasterl, good_values)
+
+  z = 0
+
   #loops intelligently, only one calculation per (i,j) pair, and only calculates for non-NA cells:
-  for (i in good_values[1:(length(good_values)-1)]) {
+  for (i in 1:(length(good_values)-1)) {
+
+    z = z+1
+
+    print(paste0(round(z/length(good_values)*100), "% done"))
 
     for (j in (i+1):length(good_values)) {
 
-          x1 = raster::xFromCell(rasterl,i)
-          y1 = raster::yFromCell(rasterl,i)
-          x2 = raster::xFromCell(rasterl,j)
-          y2 = raster::yFromCell(rasterl,j)
+          x1 = x[i]
+          y1 = y[i]
+          x2 = x[j]
+          y2 = y[j]
 
           dist = sqrt((x1-x2)^2+(y1-y2)^2)
 
@@ -57,10 +62,10 @@ calc_dist_mat = function(rasterl){
       }
     }
 
-  #only keep rows and columns for non-NA cells:
-  dist_mat = dist_mat[good_values, good_values]
-
   return(dist_mat)
 
 }
 
+# dist_mat = read.table("mat.txt)
+# dist_mat = as.matrix(dist_mat)
+# dimnames(dist_mat) = NULL
