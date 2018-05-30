@@ -44,19 +44,27 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, offset, gamma){
 
   z=0
 
-  #loops intelligently, only one calculation per (i,j) pair, and only calculates for non-NA cells:
-  for (i in 1:(length(good_values)-1)) {
+  #need one calculation for each (i,j) because depends on population of j so (i,j) != (j,i):
+  for (i in 1:length(good_values)) {
 
     z=z+1
 
     print(paste0(round(z/length(good_values)*100), "% done"))
 
-    for (j in (i+1):length(good_values)) {
+    for (j in 1:length(good_values)) {
 
-      pop_size = N[j]
-      distance = dist_mat[i,j]
+      if(j == i){
 
-      dist_kernel[i,j] = dist_kernel[j,i] = pop_size^alpha/(1+distance/offset)^(-gamma)
+        dist_kernel[i,j] = 1
+
+      } else {
+
+        pop_size = N[j]
+        distance = dist_mat[i,j]
+
+        dist_kernel[i,j] = ((pop_size^alpha)/(1+offset/distance))^(-gamma)
+
+      }
 
     }
   }
@@ -65,4 +73,4 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, offset, gamma){
 
 }
 
-#K = calc_dist_kernel(d, test, 0.53, 10, 3)
+#K = calc_dist_kernel(d, test, 0.53, 10, 2)
