@@ -39,6 +39,14 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, offset, gamma){
   #extract population sizes:
   N = rasterl@data@values[good_values]
 
+  #PROBLEM IF POP < 1 then kernel >1
+
+  #Solution 1: set minimum pop to 1
+  N[which(N<=1)] = 1
+
+  #Solution 2: set kernel values to minimum if greater than 1
+  #dist_kernel[which(dist_kernel>=1)] = min(dist_kernel)
+
   #set up matrix to fill in:
   dist_kernel = matrix(0, nrow=nrow(dist_mat), ncol=ncol(dist_mat))
 
