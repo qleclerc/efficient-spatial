@@ -16,66 +16,37 @@
 #'
 #' @export
 
+#this kernel WORKS, tested by direct comparison to matlab code output so NO PROBLEM HERE!
 
-calc_dist_kernel = function(dist_mat, rasterl, alpha, offset, gamma){
+#NOW NEED TO FIND CORRECT PARAMETERS
 
-  #safety check:
-  if(class(rasterl) != "RasterLayer"){
+calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
 
-    stop("The specified rasterl object is not a RasterLayer. Please provide a RasterLayer object for this function.")
-
-  }
-
-  #identify which cells have non-NA values:
   good_values = which(!is.na(rasterl@data@values))
 
-  #safety check:
-  if(length(good_values) != dim(dist_mat)[1]){
-
-    stop("The specified distance matrix does not correspond to this RasterLayer. Recalculate it.")
-
-  }
-
-  #extract population sizes:
   N = rasterl@data@values[good_values]
-
-  #PROBLEM IF POP < 1 then kernel >1
-
-  #Solution 1: set minimum pop to 1
-  N[which(N<=1)] = 1
-
-  #Solution 2: set kernel values to minimum if greater than 1
-  #dist_kernel[which(dist_kernel>=1)] = min(dist_kernel)
 
   #set up matrix to fill in:
   dist_kernel = matrix(0, nrow=nrow(dist_mat), ncol=ncol(dist_mat))
 
-  z=0
+  #calculate this only once:
+  K = (1+(dist_mat/aa)^(p))
 
-  #need one calculation for each (i,j) because depends on population of j so (i,j) != (j,i):
+
   for (i in 1:length(good_values)) {
 
-    z=z+1
-
-    print(paste0(round(z/length(good_values)*100), "% done"))
 
     for (j in 1:length(good_values)) {
 
-      if(j == i){
 
-        dist_kernel[i,j] = 1
-
-      } else {
-
-        pop_size = N[j]
-        distance = dist_mat[i,j]
-
-        dist_kernel[i,j] = ((pop_size^alpha)/(1+offset/distance))^(-gamma)
-
-      }
+      dist_kernel[i,j] = (N[i]*(N[j]^alpha)) / K[i,j]
 
     }
+
   }
+
+  #normalise so that rowSums = 1:
+  dist_kernel = dist_kernel/rowSums(dist_kernel)
 
   return(dist_kernel)
 
