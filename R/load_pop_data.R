@@ -17,13 +17,14 @@
 
 load_pop_data = function(){
 
-  #check is .asc file is present in working directory:
+  #safety check:
   if(identical(list.files(pattern = ".asc"),character(0))){
 
     stop("No .asc file in working directory! Make sure that it is there")
 
   }
 
+  #safety check:
   if(length(list.files(pattern = ".asc")) > 1){
 
     stop("More than one .asc file detected in working directory! Make sure that only the total population .asc file is there")

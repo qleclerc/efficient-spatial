@@ -26,6 +26,8 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
 
   N = rasterl@data@values[good_values]
 
+  N[which(N<1)] = 1
+
   #set up matrix to fill in:
   dist_kernel = matrix(0, nrow=nrow(dist_mat), ncol=ncol(dist_mat))
 

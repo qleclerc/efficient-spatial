@@ -39,14 +39,9 @@ calc_dist_mat = function(rasterl){
   x = raster::xFromCell(rasterl, good_values)
   y = raster::yFromCell(rasterl, good_values)
 
-  z = 0
-
   #loops intelligently, only one calculation per (i,j) pair, and only calculates for non-NA cells:
   for (i in 1:(length(good_values)-1)) {
 
-    z = z+1
-
-    print(paste0(round(z/length(good_values)*100), "% done"))
 
     for (j in (i+1):length(good_values)) {
 
@@ -65,7 +60,3 @@ calc_dist_mat = function(rasterl){
   return(dist_mat)
 
 }
-
-# dist_mat = read.table("mat.txt)
-# dist_mat = as.matrix(dist_mat)
-# dimnames(dist_mat) = NULL
