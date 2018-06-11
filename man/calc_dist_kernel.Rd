@@ -4,18 +4,18 @@
 \alias{calc_dist_kernel}
 \title{Calculates the spatial kernel value}
 \usage{
-calc_dist_kernel(dist_mat, rasterl, alpha, offset, gamma)
+calc_dist_kernel(dist_mat, rasterl, alpha, p, aa)
 }
 \arguments{
 \item{rasterl}{The RasterLayer object containing the population data}
 
 \item{alpha}{The destination population power.}
 
+\item{distance}{The distance between areas 1 and 2.}
+
 \item{offset}{The offset distance.}
 
 \item{gamma}{The distance power.}
-
-\item{distance}{The distance between areas 1 and 2.}
 }
 \value{
 Returns one matrix object containing the spatial kernel values.
