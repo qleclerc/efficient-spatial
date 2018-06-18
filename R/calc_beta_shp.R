@@ -1,30 +1,29 @@
-#' @title Estimates beta from a given R0 (Raster)
+#' @title Estimates beta from a given R0 (Shpaefile)
 #'
-#' @description Estimates beta for an epidemic with a given R0 in a specific population in a Rasterlayer object.
+#' @description Estimates beta for an epidemic with a given R0 in a specific population in a Shapefile object.
 #'
 #' @return Returns the value of beta.
 #'
-#' @param rasterl The RasterLayer object containing the population data.
+#' @param shp_data The Shapefile object containing the population data.
 #' @param dist_kernel The distance kernel matrix.
 #' @param contact_mat The contact matrix between age groups.
 #' @param R0 The desired value for R0.
 #' @param sigma The desired value for the recovery rate.
 #'
 #' @examples
-#' beta = calc_beta(toy_data, dist_kernel, contact_mat, R0=2, sigma=1/4.2)
+#' beta = calc_beta_shp(shp_data, dist_kernel, contact_mat, R0=2, sigma=1/4.2)
 #'
 #' @export
 
 
-calc_beta = function(rasterl, dist_kernel, contact_mat, R0=1.8, sigma=1/2.6){
+calc_beta_shp = function(shp_data, dist_kernel, contact_mat, R0=1.8, sigma=1/2.6){
 
-  good_values = which(!is.na(rasterl@data@values))  #ignore inhabitable areas (i.e. with a population "NA")
-  num_areas = length(good_values)   #derive number of areas
+  N = shp_data$Population
+
+  num_areas = length(N)   #derive number of areas
   num_ages = dim(contact_mat)[1]    #derive number of age categories from contact matrix
 
-  N = matrix(rasterl@data@values[good_values], nrow=num_areas, ncol=num_ages)
-
-  N[which(N<1)] = 1
+  N = matrix(N, nrow=num_areas, ncol=num_ages)
 
   N[,1] = N[,1]*(5/80)
   N[,2] = N[,2]*(14/80)

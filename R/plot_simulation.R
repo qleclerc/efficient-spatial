@@ -15,7 +15,7 @@
 #' @export
 
 
-plot_simulation = function(results, num_areas, num_ages, by_age=F){
+plot_simulation = function(results, num_areas, num_ages, by_age=F, title=NA){
 
   if(by_age == FALSE){
 
@@ -23,7 +23,7 @@ plot_simulation = function(results, num_areas, num_ages, by_age=F){
 
     total = sum(results[1,2:dim(results)[2]])
 
-    plot(results[,1], rowSums(results[,2:(num_areas*num_ages+1)])/total, col="green", type="l", xlab="Time", ylab="Population", ylim=c(0, 1))
+    plot(results[,1], rowSums(results[,2:(num_areas*num_ages+1)])/total, col="green", type="l", xlab="Time", ylab="Population", ylim=c(0, 1), main=title)
     lines(results[,1], rowSums(results[,(num_areas*num_ages+2):(num_areas*num_ages*2+1)])/total, col="red")
     lines(results[,1], rowSums(results[,(num_areas*num_ages*2+2):dim(results)[2]])/total, col="blue")
     legend("topright", col=c("green", "red", "blue"), legend=c("S", "I", "R"), lty=1)

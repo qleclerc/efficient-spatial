@@ -33,7 +33,7 @@
 #' @export
 
 
-run_simulation = function(rasterl, dist_kernel, contact_mat, beta, sigma = 1/2.6, stoch=FALSE, start_area=1, start_fraction=0.0001, t_max=10){
+run_simulation = function(rasterl, dist_kernel, contact_mat, beta, alpha=1, sigma = 1/2.6, stoch=FALSE, start_area=1, start_fraction=0.0001, t_max=10){
 
 
   #dynamically identify number of areas and age categories for improved flexibility:
@@ -110,8 +110,8 @@ run_simulation = function(rasterl, dist_kernel, contact_mat, beta, sigma = 1/2.6
     } else {
 
       start_area = which.max(rowSums(N))
-      S[start_area,] = S[start_area,] - N[start_area,]*start_fraction
-      I[start_area,] = I[start_area,] + N[start_area,]*start_fraction
+      S[start_area,3] = S[start_area,3] - N[start_area,3]*start_fraction
+      I[start_area,3] = I[start_area,3] + N[start_area,3]*start_fraction
 
     }
 
@@ -156,7 +156,7 @@ run_simulation = function(rasterl, dist_kernel, contact_mat, beta, sigma = 1/2.6
 
       #FOI equation is essentially a big matrix multiplication:
 
-      lambda = beta * dist_kernel %*% (t_kernel%*%I%*%t_contact)/(t_kernel%*%N)
+      lambda = beta * (dist_kernel %*% (t_kernel%*%I%*%t_contact)/(t_kernel%*%N))^alpha
 
       #again, matrix multiplication so no need for indices:
       dSdt = -lambda*S

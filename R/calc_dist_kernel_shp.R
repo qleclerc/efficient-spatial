@@ -1,11 +1,11 @@
-#' @title Calculates the spatial kernel value (Raster)
+#' @title Calculates the spatial kernel value (Shapefiles)
 #'
-#' @description Calculates the spatial kernel value between all areas in a Rasterlayer using their distance, the
+#' @description Calculates the spatial kernel value between all areas in a Shapefile using their distance, the
 #'              destination population size, the destination population power, an offset distance and a distance
 #'              power.
 #'
 #' @param distance The distance matrix between all areas.
-#' @param rasterl The RasterLayer object containing the population data
+#' @param shp_data The Shapefile object containing the population data
 #' @param alpha The destination population power.
 #' @param offset The offset distance.
 #' @param gamma The distance power.
@@ -13,18 +13,14 @@
 #' @return Returns one matrix object containing the spatial kernel values.
 #'
 #' @examples
-#' K = calc_dist_kernel(x, y, 0.53, 10, 3)
+#' K = calc_dist_kernel_shp(x, y, 0.53, 10, 3)
 #'
 #' @export
 
 
-calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
+calc_dist_kernel_shp = function(dist_mat, shp_data, alpha, p, aa){
 
-  good_values = which(!is.na(rasterl@data@values))
-
-  N = rasterl@data@values[good_values]
-
-  N[which(N<1)] = 1
+  N = shp_data$Population
 
   #set up matrix to fill in:
   dist_kernel = matrix(0, nrow=nrow(dist_mat), ncol=ncol(dist_mat))
@@ -33,10 +29,10 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
   K = (1+(dist_mat/aa)^(p))
 
 
-  for (i in 1:length(good_values)) {
+  for (i in 1:length(N)) {
 
 
-    for (j in 1:length(good_values)) {
+    for (j in 1:length(N)) {
 
 
       dist_kernel[i,j] = (N[i]*(N[j]^alpha)) / K[i,j]
@@ -51,5 +47,3 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
   return(dist_kernel)
 
 }
-
-#K = calc_dist_kernel(d, test, 0.53, 10, 2)

@@ -17,7 +17,7 @@
 #' @export
 
 
-test_all_run = function(R0=1.8, sigma = 1/2.6, t_max=10, start_fraction=0.00001){
+test_all_run = function(R0=1.8, sigma = 1/2.6, t_max=365, start_fraction=0.00001){
 
   load_toy()
 

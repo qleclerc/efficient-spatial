@@ -1,4 +1,4 @@
-#' @title Calculates the distance matrix
+#' @title Calculates the distance matrix (Raster)
 #'
 #' @description Calculates the distance between all populated areas in a RasterLayer object.
 #'
@@ -8,9 +8,6 @@
 #'          epidemic simulation. This takes a while, but is essential to later speed up the epidemic simulation.
 #'          The matrix returned only contains distance between cells with non-NA values. (i.e. cells with people
 #'          in them)
-#'          Finally, note that you can run it using one RasterLayer object then use it for any other RasterLayer
-#'          of the same spatial area (e.g. if you estimate it using the RasterLayer with population data for 0
-#'          to 4 years old in the UK, you can use it for any RasterLayer of the UK of identical resolution)
 #'
 #' @return Returns one matrix object.
 #'
