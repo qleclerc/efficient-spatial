@@ -18,7 +18,7 @@
 #' @export
 
 
-calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
+calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa, delta=0.3){
 
   good_values = which(!is.na(rasterl@data@values))
 
@@ -32,14 +32,14 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
   #calculate this only once:
   K = (1+(dist_mat/aa)^(p))
 
-
+  #works with loops because I haven't gotten around to switching to matrix multiplication instead (not a priority)
   for (i in 1:length(good_values)) {
 
 
     for (j in 1:length(good_values)) {
 
-
-      dist_kernel[i,j] = (N[i]*(N[j]^alpha)) / K[i,j]
+      #only adds delta if i == j (i.e. if calculating transmission kernel within an area)
+      dist_kernel[i,j] = ((N[j]^alpha)) * ( 1/K[i,j] )#+ (if(i==j) delta else 0))
 
     }
 
@@ -52,4 +52,3 @@ calc_dist_kernel = function(dist_mat, rasterl, alpha, p, aa){
 
 }
 
-#K = calc_dist_kernel(d, test, 0.53, 10, 2)

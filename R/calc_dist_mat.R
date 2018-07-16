@@ -19,13 +19,6 @@
 
 calc_dist_mat = function(rasterl){
 
-  #safety check:
-  if(class(rasterl) != "RasterLayer"){
-
-    stop("The specified object is not a RasterLayer. Please provide a RasterLayer object for this function.")
-
-  }
-
   #identify which cells have non-NA values:
   good_values = which(!is.na(rasterl@data@values))
 
@@ -42,17 +35,17 @@ calc_dist_mat = function(rasterl){
 
     for (j in (i+1):length(good_values)) {
 
-          x1 = x[i]
-          y1 = y[i]
-          x2 = x[j]
-          y2 = y[j]
+      x1 = x[i]
+      y1 = y[i]
+      x2 = x[j]
+      y2 = y[j]
 
-          dist = sqrt((x1-x2)^2+(y1-y2)^2)
+      dist = sqrt((x1-x2)^2+(y1-y2)^2)
 
-          dist_mat[i,j] = dist_mat[j,i] = dist
+      dist_mat[i,j] = dist_mat[j,i] = dist
 
-      }
     }
+  }
 
   return(dist_mat)
 

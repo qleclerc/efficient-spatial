@@ -1,10 +1,9 @@
-#' @title Performs pre-calculations necessary for the simulation of an epidemic using Shapefiles
+#' @title Performs pre-calculations necessary for the simulation of an epidemic (Shapefile)
 #'
 #' @description Creates the age mixing matrix and the spatial kernel using the load_contact_mat, calc_dist_mat_shp,
 #'              calc_dist_kernel_shp and calc_beta_shp functions.
 #'
 #' @param shp The Shapefile object containing the areas of interest
-#' @param pop_data The dataframe containing the population of all areas
 #' @param R0 The desired R0 for the epidemic
 #' @param sigma The desired recovery rate for the epidemic
 #'
@@ -37,6 +36,9 @@ prep_simulation_shp = function(shp, R0 = 1.8, sigma= 1/2.6){
   print("Calculating kernel matrix...")
 
   assign("kernel", calc_dist_kernel_shp(d, shp_data, 0.95, 3.95, 13.5), envir=.GlobalEnv)
+  #0.95, 3.95, 13.5
+  #0.52, 2.72, 0.58
+  #0.89, 19,
 
 
   print("Calculating beta...")

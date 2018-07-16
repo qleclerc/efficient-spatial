@@ -22,7 +22,7 @@ calc_dist_mat_shp = function(shp){
 
   #extract values once:
   x = sp::coordinates(shp)[,1]
-  y = sp::coordinates(shp)[,1]
+  y = sp::coordinates(shp)[,2]
 
   #loops intelligently, only one calculation per (i,j) pair, and only calculates for non-NA cells:
   for (i in 1:(length(shp)-1)) {

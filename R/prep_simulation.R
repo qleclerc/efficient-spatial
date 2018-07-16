@@ -1,4 +1,4 @@
-#' @title Performs pre-calculations necessary for the simulation of an epidemic
+#' @title Performs pre-calculations necessary for the simulation of an epidemic (Raster)
 #'
 #' @description Creates the age mixing matrix and the spatial kernel using the load_contact_mat, calc_dist_mat,
 #'              calc_dist_kernel and calc_beta functions.
@@ -26,6 +26,8 @@ prep_simulation = function(rasterl, R0 = 1.8, sigma= 1/2.6){
   print("Calculating kernel matrix...")
 
   assign("kernel", calc_dist_kernel(d, rasterl, 0.95, 3.95, 13.5), envir=.GlobalEnv)
+  #0.95, 3.95, 13.5
+  #5, 3.95, 40
 
   print("Calculating beta...")
 

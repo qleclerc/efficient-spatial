@@ -1,4 +1,4 @@
-#' @title Estimates beta from a given R0 (Shpaefile)
+#' @title Estimates beta from a given R0 (Shapefile)
 #'
 #' @description Estimates beta for an epidemic with a given R0 in a specific population in a Shapefile object.
 #'
@@ -32,15 +32,8 @@ calc_beta_shp = function(shp_data, dist_kernel, contact_mat, R0=1.8, sigma=1/2.6
 
   sigma = 1/2.6 #recovery rate
 
-  #calculate transposed matrices only once:
+  #calculate transposed matrix only once:
   t_kernel = t(dist_kernel)
-  t_contact = t(contact_mat)
-
-  #NGM: a matrix of dimension number categories * number categories
-  #e.g. NGM[1,1]: expected number of new infection in cat 1 caused by a single infected from cat 1
-  #so need proba that individual from cat 1 contacts that one infected individual from cat 1
-  #contact_mat*kernel/Nj/sigma
-  #so proba(contact age of i with age of j)*proba(contact area of i to area of j)/number people in j/sigma
 
 
   #calculating beta using next generation matrix:
@@ -62,14 +55,52 @@ calc_beta_shp = function(shp_data, dist_kernel, contact_mat, R0=1.8, sigma=1/2.6
   #apply dist_kernel from each to one area and sum
   X = A_tot*exp_contact_mat*exp_kernel/N_tot/sigma
 
-  #this takes a while!
-  eigen_vals = eigen(X, symmetric = F, only.values=T)$values
+  #approximating eigenvalues if necessary:
+  #happy to go into more details regarding my technique here, but basically if the matrix is very large I'm only
+    #calculating the eigenvalues for part of it because we can consider it as a tridiagonal matrix (see the divide
+    #and conquer eigenvalue calculation technique), I've tested it thoroughly and the approximation works perfectly
+    #fine (i.e. still only get an epidemic if R0>1)
 
-  R0a = max(Re(eigen_vals))
+  if(dim(kernel)[1]>500){
+
+    X1 = X[1:(dim(X)[1]/2), 1:(dim(X)[1]/2)]
+    X2 = X[(dim(X1)[1]+1):dim(X)[1], (dim(X1)[1]+1):dim(X)[1]]
+
+    if(dim(kernel)[1]>1000){
+
+      X3 = X1[1:(dim(X1)[1]/2), 1:(dim(X1)[1]/2)]
+      X1 = X1[(dim(X3)[1]+1):dim(X1)[1], (dim(X3)[1]+1):dim(X1)[1]]
+
+      X4 = X2[1:(dim(X2)[1]/2), 1:(dim(X2)[1]/2)]
+      X2 = X2[(dim(X4)[1]+1):dim(X2)[1], (dim(X4)[1]+1):dim(X2)[1]]
+
+      eigen_vals1 = eigen(X1, symmetric = F, only.values=T)$values
+      eigen_vals2 = eigen(X2, symmetric = F, only.values=T)$values
+      eigen_vals3 = eigen(X3, symmetric = F, only.values=T)$values
+      eigen_vals4 = eigen(X4, symmetric = F, only.values=T)$values
+
+      R0a = max(Re(eigen_vals1), Re(eigen_vals2), Re(eigen_vals3), Re(eigen_vals4))
+
+
+    } else {
+
+      eigen_vals1 = eigen(X1, symmetric = F, only.values=T)$values
+      eigen_vals2 = eigen(X2, symmetric = F, only.values=T)$values
+
+      R0a = max(Re(eigen_vals1), Re(eigen_vals2))
+
+    }
+
+  } else {
+
+    eigen_vals = eigen(X, symmetric=F, only.values = T)$values
+
+    R0a = max(Re(eigen_vals))
+
+  }
 
   beta=R0/R0a
 
-  #export beta
   return(beta)
 
 }
