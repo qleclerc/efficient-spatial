@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_beta.R
 \name{calc_beta}
 \alias{calc_beta}
-\title{Estimates beta from a given R0}
+\title{Estimates beta from a given R0 (Raster)}
 \usage{
 calc_beta(rasterl, dist_kernel, contact_mat, R0 = 1.8, sigma = 1/2.6)
 }
@@ -21,7 +21,7 @@ calc_beta(rasterl, dist_kernel, contact_mat, R0 = 1.8, sigma = 1/2.6)
 Returns the value of beta.
 }
 \description{
-Estimates beta for an epidemic with a given R0 in a specific population.
+Estimates beta for an epidemic with a given R0 in a specific population in a Rasterlayer object.
 }
 \examples{
 beta = calc_beta(toy_data, dist_kernel, contact_mat, R0=2, sigma=1/4.2)

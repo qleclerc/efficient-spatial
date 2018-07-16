@@ -4,14 +4,16 @@
 \alias{plot_simulation}
 \title{Plots the SIR epidemic from the simulation}
 \usage{
-plot_simulation(results, num_areas, num_ages, by_age = F)
+plot_simulation(results, num_areas, num_ages, by_age = F, stoch = F,
+  step = 1, title = NA)
 }
 \arguments{
 \item{results}{The object containing the results from the simulation.}
 
-\item{num_areas}{The number of areas in the simulation.}
+\item{num_areas}{The number of areas in the simulation. Easy way to get it for your current simulation is
+to take the dimension of your transmission kernel.}
 
-\item{num_ages}{The number of ages in the simulation.}
+\item{num_ages}{The number of ages in the simulation. ONLY SUPPORTS 4 CURRENTLY}
 
 \item{by_age}{Logical. If TRUE, will create a plot for each age category.}
 }
@@ -22,6 +24,6 @@ Creates a plot.
 Plots the total fraction of Susceptible, Infected and Recovered individuals at each time step.
 }
 \examples{
-plot_simulation(results, 52, 4)
+plot_simulation(results, dim(kernel)[1], 4)
 
 }

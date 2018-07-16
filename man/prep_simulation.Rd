@@ -2,7 +2,7 @@
 % Please edit documentation in R/prep_simulation.R
 \name{prep_simulation}
 \alias{prep_simulation}
-\title{Performs pre-calculations necessary for the simulation of an epidemic}
+\title{Performs pre-calculations necessary for the simulation of an epidemic (Raster)}
 \usage{
 prep_simulation(rasterl, R0 = 1.8, sigma = 1/2.6)
 }

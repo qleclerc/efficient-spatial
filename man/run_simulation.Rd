@@ -2,10 +2,11 @@
 % Please edit documentation in R/run_simulation.R
 \name{run_simulation}
 \alias{run_simulation}
-\title{Runs the spatial epidemic simulation}
+\title{Runs the spatial epidemic simulation (Raster)}
 \usage{
-run_simulation(rasterl, dist_kernel, contact_mat, beta, sigma = 1/2.6,
-  stoch = FALSE, start_area = 1, start_fraction = 0.01, t_max = 10)
+run_simulation(rasterl, dist_kernel, contact_mat, beta, alpha = 1,
+  sigma = 1/2.6, stoch = FALSE, step = 1, start_area = 1,
+  start_num = 1, t_max = 100)
 }
 \arguments{
 \item{rasterl}{The RasterLayer object containing the population data.}
@@ -21,23 +22,27 @@ using the calc_beta function)}
 
 \item{stoch}{Logical. If TRUE, the simulation is stochastic.}
 
-\item{start_area}{Where to start the epidemic. 1: Most highly populated area (default), 2: A random area in
-the middle of the country (typically medium population density), 3: A random area in the
-north of the country (typically low population density).}
+\item{step}{Size of time step for stochastic simulation (default is 1 day).}
 
-\item{start_fraction}{Fraction of infected individuals to start the epidemic.}
+\item{start_area}{#NOT COMPLETE# Where to start the epidemic. 1: Most highly populated area (default), 2: A
+random area in the middle of the country (typically medium population density), 3: A
+random area in the north of the country (typically low population density).}
+
+\item{start_num}{Number of infected individuals to start the epidemic.}
 
 \item{t_max}{How many days to run the simulation for.}
 }
 \value{
-Returns one dataframe object containing the epidemic estimates of cases per day.
+Returns one dataframe object containing the epidemic estimates per day.
 }
 \description{
-Simulates an epidemic using the provided RasterLayers, distance matrix, spatial kernel,
+Simulates an epidemic using the provided RasterLayer, distance matrix, spatial kernel,
              contact matrix, and infection parameters.
 }
 \details{
-This functions requires many parameters to run. These can be generated using the following functions:
+This functions requires specific objects to run. These can be generated using the prep_simulation
+         function (e.g. if you want to simulate an epidemic using the raster object "toy_data", you must run
+         prep_simulation(toy_data) first)
 }
 \examples{
 results = run_simulation(total_pop_data, kernel, contact_mat, beta = beta)
