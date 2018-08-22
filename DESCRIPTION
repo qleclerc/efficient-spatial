@@ -4,9 +4,9 @@ Title: Efficient Spatial Modelling of Epidemics
 Version: 0.1.0
 Author: Quentin Leclerc [aut, cre]
 Maintainer: Quentin Leclerc <ql3114@ic.ac.uk>
-Description: An epidemic modelling framework for all resolutions of gridded and polygon spatial data.
-License: What license is it under?
+Description: An epidemic modelling framework for all resolutions of gridded and polygon spatial data
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: raster
+Imports: raster,sp,ggplot2
 RoxygenNote: 6.0.1
