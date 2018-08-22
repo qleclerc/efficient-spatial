@@ -5,32 +5,62 @@
 #' @param results The object containing the results from the simulation.
 #' @param num_areas The number of areas in the simulation. Easy way to get it for your current simulation is
 #'                  to take the dimension of your transmission kernel.
-#' @param num_ages The number of ages in the simulation. ONLY SUPPORTS 4 CURRENTLY
-#' @param by_age Logical. If TRUE, will create a plot for each age category.
+#' @param num_ages The number of ages in the simulation. ONLY SUPPORTS 1 OR 4 CURRENTLY
+#' @param by_age Logical. If TRUE, will create a plot for each age category (only works with pretty = FALSE).
+#' @param step Timestep used for the simulation (default plotting assumes a timestep of 1 day).
+#' @param pretty Logical. If TRUE, will render using ggplot (longer but nicer).
+#' @param title Title to use for the plot.
 #'
 #' @return Creates a plot.
 #'
 #' @examples
-#' plot_simulation(results, dim(kernel)[1], 4)
+#' plot_simulation(results, dim(proper_D)[1]/4, 4)
 #'
 #' @export
 
 #messy function in the indexing but gets the job done
 
-plot_simulation = function(results, num_areas, num_ages, by_age=F, stoch=F, step=1, title=NA){
+plot_simulation = function(results, num_areas, num_ages, by_age=F, step=1, pretty=F, title=NULL){
 
-  if(stoch == F){
+  step = 1/step
+
+  if(pretty == T){
+
+    total = sum(results[1,2:dim(results)[2]])
+
+    data = data.frame(Time = c(0:(max(results[,1])/step)),
+                      S = rowSums(results[seq(1,max(results[,1])+1, step),2:(num_areas*num_ages+1)])/total,
+                      I = rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages+2):(num_areas*num_ages*2+1)])/total,
+                      R = rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages*2+2):dim(results)[2]])/total)
+
+    ggplot()+
+      geom_line(aes(x=data$Time, y=data$S, col="green"))+
+      geom_line(aes(x=data$Time, y=data$I*15, col="red"))+
+      geom_line(aes(x=data$Time, y=data$R, col="blue"))+
+      scale_y_continuous(name = "Susceptible, Recovered", limits=c(0,1), breaks=seq(0,1,0.2), sec.axis = sec_axis(~./15 , name = "Infected", breaks=seq(0,1/15,0.01)))+
+      scale_x_continuous(name = "Time (days)", breaks = seq(0,200,20), minor_breaks = NULL)+
+      scale_color_manual(name=NULL,breaks=c("green","red","blue"),values=c("green3","royalblue","red3"),labels=c("Susceptible","Infected", "Recovered"))+
+      theme_bw()+
+      theme(legend.box.background = element_rect(colour = "black"), legend.background = element_blank(),
+            legend.justification=c(1,1), legend.position=c(1,1))+
+      ggtitle(title)
+
+
+
+  } else {
+
+
     if(by_age == FALSE){
 
       par(mar=c(5,4,4,5)+.1)
 
       total = sum(results[1,2:dim(results)[2]])
 
-      plot(results[,1], rowSums(results[,2:(num_areas*num_ages+1)])/total, col="green", type="l", xlab="Time", ylab="S, R", ylim=c(0, 1), main=title)
-      lines(results[,1], rowSums(results[,(num_areas*num_ages*2+2):dim(results)[2]])/total, col="blue")
+      plot(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),2:(num_areas*num_ages+1)])/total, col="green", type="l", xlab="Time", ylab="S, R", ylim=c(0, 1), main=title)
+      lines(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages*2+2):dim(results)[2]])/total, col="blue")
 
       par(new=T)
-      plot(results[,1], rowSums(results[,(num_areas*num_ages+2):(num_areas*num_ages*2+1)])/total, type="l", col="red", xlab="",ylab="", xaxt="n",yaxt="n")
+      plot(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages+2):(num_areas*num_ages*2+1)])/total, type="l", col="red", xlab="",ylab="", xaxt="n",yaxt="n")
       axis(4)
       mtext("I",side=4,line=3)
 
@@ -86,23 +116,11 @@ plot_simulation = function(results, num_areas, num_ages, by_age=F, stoch=F, step
 
 
     }
-  } else {
 
-    par(mar=c(5,4,4,5)+.1)
-
-    total = sum(results[1,2:dim(results)[2]])
-
-    plot(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),2:(num_areas*num_ages+1)])/total, col="green", type="l", xlab="Time", ylab="S, R", ylim=c(0, 1), main=title)
-    lines(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages*2+2):dim(results)[2]])/total, col="blue")
-
-    par(new=T)
-    plot(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages+2):(num_areas*num_ages*2+1)])/total, type="l", col="red", xlab="",ylab="", xaxt="n",yaxt="n")
-    axis(4)
-    mtext("I",side=4,line=3)
-
-    legend("topright", col=c("green", "red", "blue"), legend=c("S", "I", "R"), lty=1)
-
+    #reset graphics parameters
+    par(mfrow=c(1,1))
 
   }
+
 }
 

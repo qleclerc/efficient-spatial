@@ -1,17 +1,18 @@
 #' @title Estimates beta from a given R0 (Shapefile)
 #'
-#' @description Estimates beta for an epidemic with a given R0 in a specific population in a Shapefile object.
+#' @description Estimates beta for an epidemic with a given R0 in a specific population in a Shapefile object,
+#'              and calculates the expanded kernel matrix D to use when simulating an epidemic.
 #'
-#' @return Returns the value of beta.
+#' @return Returns the value of beta and assigns the D matrix to the global environment.
 #'
-#' @param shp_data The Shapefile object containing the population data.
+#' @param shp_data The dataframe object containing the population data extracted from the Shapefile object.
 #' @param dist_kernel The distance kernel matrix.
-#' @param contact_mat The contact matrix between age groups.
+#' @param contact_mat The contact matrix for mixing between age groups.
 #' @param R0 The desired value for R0.
 #' @param sigma The desired value for the recovery rate.
 #'
-#' @examples
-#' beta = calc_beta_shp(shp_data, dist_kernel, contact_mat, R0=2, sigma=1/4.2)
+#' @details This function is automatically executed when using the \code{\link{prep_simulation_shp}} function. It
+#'          uses the Next Generation Matrix approach to derive beta from R0.
 #'
 #' @export
 
@@ -23,81 +24,66 @@ calc_beta_shp = function(shp_data, dist_kernel, contact_mat, R0=1.8, sigma=1/2.6
   num_areas = length(N)   #derive number of areas
   num_ages = dim(contact_mat)[1]    #derive number of age categories from contact matrix
 
-  N = matrix(N, nrow=num_areas, ncol=num_ages)
+  if(num_ages == 4){
 
-  N[,1] = N[,1]*(5/80)
-  N[,2] = N[,2]*(14/80)
-  N[,3] = N[,3]*(45/80)
-  N[,4] = N[,4]*(16/80)
+    N = matrix(N, nrow=num_areas, ncol=num_ages)
 
-  sigma = 1/2.6 #recovery rate
+    NN0 = as.vector(N)
 
-  #calculate transposed matrix only once:
-  t_kernel = t(dist_kernel)
+    N[,1] = N[,1]*(5/81)
+    N[,2] = N[,2]*(14/81)
+    N[,3] = N[,3]*(46/81)
+    N[,4] = N[,4]*(16/81)
+    #this way, i in the matrix is the area and j the age group e.g. N[1,1] gives pop 0-4 in area 1
 
+  } else if(num_ages == 1){
 
-  #calculating beta using next generation matrix:
-  #population as vectors:
-  A_tot = as.vector(t(N))
-
-  #adjust since population present in an area at time t is not the same as area population
-  N_tot = t_kernel%*%N
-  N_tot = as.vector(t(N_tot))
-
-  #expand contact matrix
-  exp_contact_mat = matrix(rep(contact_mat, num_areas), ncol=ncol(contact_mat), byrow=T)
-  exp_contact_mat = matrix(rep(exp_contact_mat, num_areas), nrow=nrow(exp_contact_mat), byrow=T)
-
-  #expand kernel matrix
-  exp_kernel = matrix(apply(t_kernel, c(1,2), function(x) rep(x,num_ages)), ncol=(ncol(dist_kernel)*num_ages), byrow=T)
-  exp_kernel = matrix(apply(exp_kernel, 1, function(x) rep(x,num_ages)), ncol=ncol(exp_kernel), byrow=T)
-
-  #apply dist_kernel from each to one area and sum
-  X = A_tot*exp_contact_mat*exp_kernel/N_tot/sigma
-
-  #approximating eigenvalues if necessary:
-  #happy to go into more details regarding my technique here, but basically if the matrix is very large I'm only
-    #calculating the eigenvalues for part of it because we can consider it as a tridiagonal matrix (see the divide
-    #and conquer eigenvalue calculation technique), I've tested it thoroughly and the approximation works perfectly
-    #fine (i.e. still only get an epidemic if R0>1)
-
-  if(dim(kernel)[1]>500){
-
-    X1 = X[1:(dim(X)[1]/2), 1:(dim(X)[1]/2)]
-    X2 = X[(dim(X1)[1]+1):dim(X)[1], (dim(X1)[1]+1):dim(X)[1]]
-
-    if(dim(kernel)[1]>1000){
-
-      X3 = X1[1:(dim(X1)[1]/2), 1:(dim(X1)[1]/2)]
-      X1 = X1[(dim(X3)[1]+1):dim(X1)[1], (dim(X3)[1]+1):dim(X1)[1]]
-
-      X4 = X2[1:(dim(X2)[1]/2), 1:(dim(X2)[1]/2)]
-      X2 = X2[(dim(X4)[1]+1):dim(X2)[1], (dim(X4)[1]+1):dim(X2)[1]]
-
-      eigen_vals1 = eigen(X1, symmetric = F, only.values=T)$values
-      eigen_vals2 = eigen(X2, symmetric = F, only.values=T)$values
-      eigen_vals3 = eigen(X3, symmetric = F, only.values=T)$values
-      eigen_vals4 = eigen(X4, symmetric = F, only.values=T)$values
-
-      R0a = max(Re(eigen_vals1), Re(eigen_vals2), Re(eigen_vals3), Re(eigen_vals4))
-
-
-    } else {
-
-      eigen_vals1 = eigen(X1, symmetric = F, only.values=T)$values
-      eigen_vals2 = eigen(X2, symmetric = F, only.values=T)$values
-
-      R0a = max(Re(eigen_vals1), Re(eigen_vals2))
-
-    }
+    NN0 = as.vector(N)
 
   } else {
 
-    eigen_vals = eigen(X, symmetric=F, only.values = T)$values
-
-    R0a = max(Re(eigen_vals))
+    stop("Unsupported number of age categories, currently only supports 4 or none.")
 
   }
+
+
+  Sstart = matrix(N, ncol=1)
+  Sstart = matrix(Sstart, ncol=nrow(Sstart), nrow=nrow(Sstart))
+
+  K1 = kronecker(diag(num_ages), dist_kernel)
+
+  NNbar = matrix(N, ncol=1)
+  Kbar = kronecker(matrix(1,num_ages,num_ages), dist_kernel)
+
+  Mj=t(Kbar)%*%NNbar
+  Mj[which(Mj==0)]=1
+  Mjover=1/Mj
+  Mjover = t(Mjover)
+  Mjover = matrix(rep(Mjover, num_areas*num_ages), nrow=num_areas*num_ages, byrow=T)
+
+  keye = diag(num_areas)
+  kxeye = matrix(1, nrow=num_areas, ncol=num_areas) - keye
+  Cbar = kronecker(contact_mat, keye) + kronecker(contact_mat, kxeye)
+
+  DD=(Sstart*K1*Mjover)%*%(t(Kbar)*Cbar)
+
+  X=DD/sigma
+
+
+  ###this extra bit just calculates D, necessary for FOI calculation, it's then faster to run the simulation
+  Ni=matrix(NN0,nrow=length(NN0),ncol=length(NN0),byrow=F)
+  Nj=t(Ni)
+
+  proper_D = (K1*Mjover)%*%(t(Kbar)*Cbar)
+  proper_D = proper_D*Nj
+
+  assign("expanded_D", proper_D, envir=.GlobalEnv)
+  ###
+
+
+  eigen_vals = eigen(X, symmetric=F, only.values = T)$values
+
+  R0a = max(Re(eigen_vals))
 
   beta=R0/R0a
 
