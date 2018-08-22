@@ -1,6 +1,6 @@
 # efficientspatial
 
-Set of functions for spatial simulation of an epidemic in Great Britain at various resolutions.
+An epidemic modelling framework for all resolutions of gridded and polygon spatial data.
 
-The ASCII file containing the population density data at the 100m resolution for Great Britain is required.
-It is available at the following address: https://goo.gl/EUemcC
+The ASCII file containing the population density data at the 100m resolution for England is required.
+It is available at the following address: 
