@@ -10,14 +10,14 @@ load_pop_data()
 Creates one RasterLayer object in the Global Environment.
 }
 \description{
-Loads the UK total population density file from the working directory as a RasterLayer object.
+Loads the total population density file of England as a RasterLayer object. The population is
+             divided over a 100 metre grid.
 }
 \details{
-This function is dangerous in the sense that it assigns a variable to the Global Environment
-         automatically. If there are any errors, try running it with an empty Global Environment.
-         Note that the function attempts to load the file in the RAM if possible for faster computation later.
+Note that the function attempts to load the file in the RAM if possible for faster computation later.
 }
 \examples{
+
 load_pop_data()
 View(total_pop_data)
 

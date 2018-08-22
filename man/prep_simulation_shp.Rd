@@ -4,23 +4,25 @@
 \alias{prep_simulation_shp}
 \title{Performs pre-calculations necessary for the simulation of an epidemic (Shapefile)}
 \usage{
-prep_simulation_shp(shp, R0 = 1.8, sigma = 1/2.6)
+prep_simulation_shp(shp, pop_data, R0 = 1.8, sigma = 1/2.6, age = TRUE)
 }
 \arguments{
-\item{shp}{The Shapefile object containing the areas of interest}
+\item{shp}{The Shapefile object containing the population structure.}
+
+\item{pop_data}{The dataframe containing the population data}
 
 \item{R0}{The desired R0 for the epidemic}
 
 \item{sigma}{The desired recovery rate for the epidemic}
+
+\item{age}{Logical. If TRUE, the simulation will assume four distincts age groups in the population (default).
+If FALSE, the simulation will assume homogeneous mixing between age groups in the population.}
 }
 \value{
-Returns two matrix objects and one value for beta.
+Returns one dataframe, two matrix objects and one value for beta.
 }
 \description{
-Creates the age mixing matrix and the spatial kernel using the load_contact_mat, calc_dist_mat_shp,
-             calc_dist_kernel_shp and calc_beta_shp functions.
-}
-\examples{
-prep_simulation_shp(regions_shp, pop_data, R0 = 2, sigma = 1/4.2)
-
+Creates the age mixing matrix and the spatial kernel using the \code{\link{load_contact_mat}},
+             \code{\link{calc_dist_mat_shp}}, \code{\link{calc_dist_kernel_shp}} and \code{\link{calc_beta_shp}}
+             functions.
 }

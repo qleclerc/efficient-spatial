@@ -4,7 +4,7 @@
 \alias{prep_simulation}
 \title{Performs pre-calculations necessary for the simulation of an epidemic (Raster)}
 \usage{
-prep_simulation(rasterl, R0 = 1.8, sigma = 1/2.6)
+prep_simulation(rasterl, R0 = 1.8, sigma = 1/2.6, age = TRUE)
 }
 \arguments{
 \item{rasterl}{The RasterLayer object containing the population data.}
@@ -12,15 +12,24 @@ prep_simulation(rasterl, R0 = 1.8, sigma = 1/2.6)
 \item{R0}{The desired R0 for the epidemic}
 
 \item{sigma}{The desired recovery rate for the epidemic}
+
+\item{age}{Logical. If TRUE, the simulation will assume four distincts age groups in the population (default).
+If FALSE, the simulation will assume homogeneous mixing between age groups in the population.}
 }
 \value{
 Returns two matrix objects and one value for beta.
 }
 \description{
-Creates the age mixing matrix and the spatial kernel using the load_contact_mat, calc_dist_mat,
-             calc_dist_kernel and calc_beta functions.
+Creates the age mixing matrix and the spatial kernel using the \code{\link{load_contact_mat}},
+             \code{\link{calc_dist_mat}}, \code{\link{calc_dist_kernel}} and \code{\link{calc_beta}} functions.
 }
 \examples{
-prep_simulation(toy_data, R0 = 2, sigma = 1/4.2)
+
+#Create a RasterLayer object:
+test_data = raster(nrow=10, ncol=10, xmn=1, xmx=100000, ymn=1, ymx=100000)
+values(test_data) = runif(100, 1, 1000)
+
+prep_simulation(test_data)
+
 
 }

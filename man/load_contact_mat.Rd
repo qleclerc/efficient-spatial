@@ -4,15 +4,20 @@
 \alias{load_contact_mat}
 \title{Creates the age mixing matrix}
 \usage{
-load_contact_mat()
+load_contact_mat(age = T)
+}
+\arguments{
+\item{age}{Logical. If FALSE, will assume homogeneous mixing between age groups in the population and therefore
+return a matrix to enable this in the other functions (default is TRUE).}
 }
 \value{
 Returns one matrix object.
 }
 \description{
-Creates the age mixing matrix for four age groups: 0-4, 5-19, 20-64 and 65+. Based on (REF)
+Creates the age mixing matrix for four age groups: 0-4, 5-19, 20-64 and 65+, or for no age groups.
 }
 \examples{
+
 contact_mat = load_contact_mat()
 View(contact_mat)
 

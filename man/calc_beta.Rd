@@ -11,19 +11,34 @@ calc_beta(rasterl, dist_kernel, contact_mat, R0 = 1.8, sigma = 1/2.6)
 
 \item{dist_kernel}{The distance kernel matrix.}
 
-\item{contact_mat}{The contact matrix between age groups.}
+\item{contact_mat}{The contact matrix for mixing between age groups.}
 
 \item{R0}{The desired value for R0.}
 
 \item{sigma}{The desired value for the recovery rate.}
 }
 \value{
-Returns the value of beta.
+Returns the value of beta and assigns the D matrix to the global environment.
 }
 \description{
-Estimates beta for an epidemic with a given R0 in a specific population in a Rasterlayer object.
+Estimates beta for an epidemic with a given R0 in a specific population in a Rasterlayer object,
+             and calculates the expanded kernel matrix D to use when simulating an epidemic.
+}
+\details{
+This function is automatically executed when using the \code{\link{prep_simulation}} function. It uses
+         the Next Generation Matrix approach to derive beta from R0.
 }
 \examples{
-beta = calc_beta(toy_data, dist_kernel, contact_mat, R0=2, sigma=1/4.2)
+
+#Create a RasterLayer object:
+test_data = raster(nrow=10, ncol=10, xmn=1, xmx=100000, ymn=1, ymx=100000)
+values(test_data) = runif(100, 1, 1000)
+
+#Calculate distance kernel matrix and load age mixing matrix:
+dist_mat = calc_dist_mat(test_data)
+dist_kernel = calc_dist_kernel(dist_mat, dist_c = 87, test_data, alpha=0.95, p=6.6, p2=1.53, aa=35)
+load_contact_mat()
+
+beta = calc_beta(test_data, dist_kernel, contact_mat, R0=1.8, sigma=1/2.6)
 
 }

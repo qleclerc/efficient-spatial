@@ -2,30 +2,46 @@
 % Please edit documentation in R/calc_dist_kernel.R
 \name{calc_dist_kernel}
 \alias{calc_dist_kernel}
-\title{Calculates the spatial kernel value (Raster)}
+\title{Calculates the spatial kernel values (Raster)}
 \usage{
-calc_dist_kernel(dist_mat, rasterl, alpha, p, aa, delta = 0.3)
+calc_dist_kernel(dist_mat, dist_c, rasterl, alpha, p, p2, aa, delta = 0.3)
 }
 \arguments{
+\item{dist_c}{The threshold distance for the matched kernel. Note that setting this to an extremely high value
+will effectively make the gravity kernel a smooth kernel with a single function since the threshold
+distance will never be crossed.}
+
 \item{rasterl}{The RasterLayer object containing the population data}
 
 \item{alpha}{The destination population power.}
 
+\item{p}{The distance power.}
+
+\item{p2}{The secondary distance power for the matched kernel.}
+
+\item{aa}{The offset distance.}
+
+\item{delta}{The home cell modifier (to compensate the distance within cells equal to 0).}
+
 \item{distance}{The distance matrix between all areas.}
-
-\item{offset}{The offset distance.}
-
-\item{gamma}{The distance power.}
 }
 \value{
 Returns one matrix object containing the spatial kernel values.
 }
 \description{
-Calculates the spatial kernel value between all areas in a Rasterlayer using their distance, the
-             destination population size, the destination population power, an offset distance and a distance
-             power.
+Calculates the spatial kernel values between all areas in a Rasterlayer using their distance and
+             population. This uses a gravity kernel structure (either matched or smooth depending on the threshold
+             distance).
 }
 \examples{
-K = calc_dist_kernel(x, y, 0.53, 10, 3)
+
+#Create a RasterLayer object:
+test_data = raster(nrow=10, ncol=10, xmn=1, xmx=100000, ymn=1, ymx=100000)
+values(test_data) = runif(100, 1, 1000)
+
+#Calculate distance matrix
+dist_mat = calc_dist_mat(test_data)
+
+dist_kernel = calc_dist_kernel(dist_mat, dist_c = 87, test_data, alpha=0.95, p=6.6, p2=1.53, aa=35)
 
 }

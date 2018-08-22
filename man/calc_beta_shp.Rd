@@ -7,23 +7,24 @@
 calc_beta_shp(shp_data, dist_kernel, contact_mat, R0 = 1.8, sigma = 1/2.6)
 }
 \arguments{
-\item{shp_data}{The Shapefile object containing the population data.}
+\item{shp_data}{The dataframe object containing the population data extracted from the Shapefile object.}
 
 \item{dist_kernel}{The distance kernel matrix.}
 
-\item{contact_mat}{The contact matrix between age groups.}
+\item{contact_mat}{The contact matrix for mixing between age groups.}
 
 \item{R0}{The desired value for R0.}
 
 \item{sigma}{The desired value for the recovery rate.}
 }
 \value{
-Returns the value of beta.
+Returns the value of beta and assigns the D matrix to the global environment.
 }
 \description{
-Estimates beta for an epidemic with a given R0 in a specific population in a Shapefile object.
+Estimates beta for an epidemic with a given R0 in a specific population in a Shapefile object,
+             and calculates the expanded kernel matrix D to use when simulating an epidemic.
 }
-\examples{
-beta = calc_beta_shp(shp_data, dist_kernel, contact_mat, R0=2, sigma=1/4.2)
-
+\details{
+This function is automatically executed when using the \code{\link{prep_simulation_shp}} function. It
+         uses the Next Generation Matrix approach to derive beta from R0.
 }
