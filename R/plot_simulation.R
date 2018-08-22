@@ -4,26 +4,43 @@
 #'
 #' @param results The object containing the results from the simulation.
 #' @param num_areas The number of areas in the simulation. Easy way to get it for your current simulation is
-#'                  to take the dimension of your transmission kernel.
-#' @param num_ages The number of ages in the simulation. ONLY SUPPORTS 1 OR 4 CURRENTLY
+#'                  to use the dimension of your transmission kernel (e.g. if you have 4 age groups:
+#'                  dim(expanded_D)[1]/4).
+#' @param num_ages The number of ages in the simulation.
 #' @param by_age Logical. If TRUE, will create a plot for each age category (only works with pretty = FALSE).
-#' @param step Timestep used for the simulation (default plotting assumes a timestep of 1 day).
+#' @param step Timestep used for the simulation, in days (default is 1 day).
 #' @param pretty Logical. If TRUE, will render using ggplot (longer but nicer).
 #' @param title Title to use for the plot.
 #'
 #' @return Creates a plot.
 #'
+#' @details The Infected category has a separate y-axis to make visualisation easier, due to the relatively low
+#'          fraction of Infected at any given time compared to Susceptible and Recovered.
+#'
 #' @examples
-#' plot_simulation(results, dim(proper_D)[1]/4, 4)
+#'
+#' #Create a RasterLayer object:
+#' test_data = raster(nrow=10, ncol=10, xmn=1, xmx=100000, ymn=1, ymx=100000)
+#' values(test_data) = runif(100, 1, 1000)
+#'
+#' #Calculate the parameters for the simulation:
+#' prep_simulation(test_data)
+#'
+#' #Run the simulation:
+#' results = run_simulation(test_data, expanded_D, contact_mat, beta)
+#'
+#' plot_simulation(results, dim(expanded_D)[1]/4, 4, pretty=T, title="SIR plot")
+#'
 #'
 #' @export
 
-#messy function in the indexing but gets the job done
 
 plot_simulation = function(results, num_areas, num_ages, by_age=F, step=1, pretty=F, title=NULL){
 
+  #inverse step for cleaner calculations involving this value below:
   step = 1/step
 
+  #using ggplot:
   if(pretty == T){
 
     total = sum(results[1,2:dim(results)[2]])
@@ -34,19 +51,19 @@ plot_simulation = function(results, num_areas, num_ages, by_age=F, step=1, prett
                       R = rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages*2+2):dim(results)[2]])/total)
 
     ggplot()+
-      geom_line(aes(x=data$Time, y=data$S, col="green"))+
+      geom_line(aes(x=data$Time, y=data$S, col="blue"))+
       geom_line(aes(x=data$Time, y=data$I*15, col="red"))+
-      geom_line(aes(x=data$Time, y=data$R, col="blue"))+
+      geom_line(aes(x=data$Time, y=data$R, col="green"))+
       scale_y_continuous(name = "Susceptible, Recovered", limits=c(0,1), breaks=seq(0,1,0.2), sec.axis = sec_axis(~./15 , name = "Infected", breaks=seq(0,1/15,0.01)))+
-      scale_x_continuous(name = "Time (days)", breaks = seq(0,200,20), minor_breaks = NULL)+
-      scale_color_manual(name=NULL,breaks=c("green","red","blue"),values=c("green3","royalblue","red3"),labels=c("Susceptible","Infected", "Recovered"))+
+      scale_x_continuous(name = "Time (days)", breaks = seq(0,max(data$Time),20), minor_breaks = NULL)+
+      scale_color_manual(name=NULL,breaks=c("blue","red","green"),values=c("royalblue","green3","red3"),labels=c("Susceptible","Infected", "Recovered"))+
       theme_bw()+
       theme(legend.box.background = element_rect(colour = "black"), legend.background = element_blank(),
             legend.justification=c(1,1), legend.position=c(1,1))+
       ggtitle(title)
 
 
-
+  #default plotting:
   } else {
 
 
@@ -56,15 +73,15 @@ plot_simulation = function(results, num_areas, num_ages, by_age=F, step=1, prett
 
       total = sum(results[1,2:dim(results)[2]])
 
-      plot(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),2:(num_areas*num_ages+1)])/total, col="green", type="l", xlab="Time", ylab="S, R", ylim=c(0, 1), main=title)
-      lines(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages*2+2):dim(results)[2]])/total, col="blue")
+      plot(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),2:(num_areas*num_ages+1)])/total, col="blue", type="l", xlab="Time", ylab="S, R", ylim=c(0, 1), main=title)
+      lines(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages*2+2):dim(results)[2]])/total, col="green")
 
       par(new=T)
       plot(c(0:(max(results[,1])/step)), rowSums(results[seq(1,max(results[,1])+1, step),(num_areas*num_ages+2):(num_areas*num_ages*2+1)])/total, type="l", col="red", xlab="",ylab="", xaxt="n",yaxt="n")
       axis(4)
       mtext("I",side=4,line=3)
 
-      legend("topright", col=c("green", "red", "blue"), legend=c("S", "I", "R"), lty=1)
+      legend("topright", col=c("blue", "red", "green"), legend=c("S", "I", "R"), lty=1)
 
     } else {
 
@@ -91,28 +108,28 @@ plot_simulation = function(results, num_areas, num_ages, by_age=F, step=1, prett
       total4 = sum(S_4[1],I_4[1],R_4[1])
 
 
-      plot(results[,1], S_1/total1, type="l", col="green", ylab="Population", xlab="Time", main="0-4 years old", ylim=c(0, 1))
+      plot(results[,1], S_1/total1, type="l", col="blue", ylab="S,I,R fraction", xlab="Time", main="0-4 years old", ylim=c(0, 1))
       lines(results[,1], I_1/total1, col="red")
-      lines(results[,1], R_1/total1, col="blue")
-      legend("topright", col=c("green", "red", "blue"), legend=c("S", "I", "R"), lty=1)
+      lines(results[,1], R_1/total1, col="green")
+      legend("topright", col=c("blue", "red", "green"), legend=c("S", "I", "R"), lty=1)
 
 
-      plot(results[,1], S_2/total2, type="l", col="green", ylab="Population", xlab="Time", main="5-19 years old", ylim=c(0, 1))
+      plot(results[,1], S_2/total2, type="l", col="blue", ylab="S,I,R fraction", xlab="Time", main="5-19 years old", ylim=c(0, 1))
       lines(results[,1], I_2/total2, col="red")
-      lines(results[,1], R_2/total2, col="blue")
-      legend("topright", col=c("green", "red", "blue"), legend=c("S", "I", "R"), lty=1)
+      lines(results[,1], R_2/total2, col="green")
+      legend("topright", col=c("blue", "red", "green"), legend=c("S", "I", "R"), lty=1)
 
 
-      plot(results[,1], S_3/total3, type="l", col="green", ylab="Population", xlab="Time", main="20-64 years old", ylim=c(0, 1))
+      plot(results[,1], S_3/total3, type="l", col="blue", ylab="S,I,R fraction", xlab="Time", main="20-64 years old", ylim=c(0, 1))
       lines(results[,1], I_3/total3, col="red")
-      lines(results[,1], R_3/total3, col="blue")
-      legend("topright", col=c("green", "red", "blue"), legend=c("S", "I", "R"), lty=1)
+      lines(results[,1], R_3/total3, col="green")
+      legend("topright", col=c("blue", "red", "green"), legend=c("S", "I", "R"), lty=1)
 
 
-      plot(results[,1], S_4/total4, type="l", col="green", ylab="Population", xlab="Time", main="65+ years old", ylim=c(0, 1))
+      plot(results[,1], S_4/total4, type="l", col="blue", ylab="S,I,R fraction", xlab="Time", main="65+ years old", ylim=c(0, 1))
       lines(results[,1], I_4/total4, col="red")
-      lines(results[,1], R_4/total4, col="blue")
-      legend("topright", col=c("green", "red", "blue"), legend=c("S", "I", "R"), lty=1)
+      lines(results[,1], R_4/total4, col="green")
+      legend("topright", col=c("blue", "red", "green"), legend=c("S", "I", "R"), lty=1)
 
 
     }
