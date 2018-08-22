@@ -1,0 +1,429 @@
+"Area_name","Population"
+"North East",2515442
+"North West",6729764
+"Yorkshire And The Humber",4964833
+"East Midlands",4172174
+"West Midlands",5267308
+"East",5388140
+"London",7172091
+"South East",8000645
+"South West",4928434
+"Bedfordshire",381572
+"Buckinghamshire",479026
+"Cambridgeshire",552658
+"Cheshire",673788
+"Cheshire West And Chester",321971
+"Cheshire East",351817
+"Cornwall And Isles Of Scilly",501267
+"Cumbria",487607
+"Derbyshire",734585
+"Devon",704493
+"Dorset",390980
+"Inner London",2766114
+"Outer London",4405977
+"Durham",493470
+"East Sussex",492324
+"Essex",1310835
+"Gloucestershire",564559
+"Hampshire",1240103
+"Hertfordshire",1033977
+"Kent",1329718
+"Greater Manchester",2482328
+"Merseyside",1362026
+"South Yorkshire",1266338
+"Tyne And Wear",1075938
+"West Midlands County",2555592
+"West Yorkshire",2079211
+"Lancashire",1134974
+"Leicestershire",609578
+"Lincolnshire",646645
+"Norfolk",796728
+"Northamptonshire",629676
+"Northumberland",307190
+"North Yorkshire",569660
+"Nottinghamshire",748510
+"Oxfordshire",605488
+"Shropshire",283173
+"Somerset",498093
+"Staffordshire",806744
+"Suffolk",668553
+"Surrey",1059015
+"Warwickshire",505860
+"West Sussex",753614
+"Wiltshire",432973
+"Worcestershire",542107
+"Hartlepool",88611
+"Middlesbrough",134855
+"Redcar And Cleveland",139132
+"Stockton-On-Tees",178408
+"Darlington",97838
+"Halton",118208
+"Warrington",191080
+"Blackburn With Darwen",137470
+"Blackpool",142283
+"Kingston Upon Hull, City Of",243589
+"East Riding Of Yorkshire",314113
+"North East Lincolnshire",157979
+"North Lincolnshire",152849
+"York",181094
+"Derby",221708
+"Leicester",279921
+"Rutland",34563
+"Nottingham",266988
+"Herefordshire, County Of",174871
+"Telford And Wrekin",158325
+"Stoke-On-Trent",240636
+"Bath And North East Somerset",169040
+"Bristol, City Of",380615
+"North Somerset",188564
+"South Gloucestershire",245641
+"Plymouth",240720
+"Torbay",129706
+"Bournemouth",163444
+"Poole",138288
+"Swindon",180051
+"Peterborough",156061
+"Luton",184371
+"Southend-On-Sea",160257
+"Thurrock",143128
+"Medway",249488
+"Bracknell Forest",109617
+"West Berkshire",144483
+"Reading",143096
+"Slough",119067
+"Windsor And Maidenhead",133626
+"Wokingham",150229
+"Milton Keynes",207057
+"Brighton And Hove",247817
+"Portsmouth",186701
+"Southampton",217445
+"Isle Of Wight",132731
+"Isle Of Anglesey",66829
+"Gwynedd",116843
+"Conwy",109596
+"Denbighshire",93065
+"Flintshire",148594
+"Wrexham",128476
+"Powys",126354
+"Ceredigion",74941
+"Pembrokeshire",114131
+"Carmarthenshire",172842
+"Swansea",223301
+"Neath Port Talbot",134468
+"Bridgend",128645
+"The Vale Of Glamorgan",119292
+"Rhondda, Cynon, Taff",231946
+"Merthyr Tydfil",55981
+"Caerphilly",169519
+"Blaenau Gwent",70064
+"Torfaen",90949
+"Monmouthshire",84885
+"Newport",137011
+"Cardiff",305353
+"City Of London",7185
+"Barking And Dagenham",163944
+"Barnet",314564
+"Bexley",218307
+"Brent",263464
+"Bromley",295532
+"Camden",198020
+"Croydon",330587
+"Ealing",300948
+"Enfield",273559
+"Greenwich",214403
+"Hackney",202824
+"Hammersmith And Fulham",165242
+"Haringey",216507
+"Harrow",206814
+"Havering",224248
+"Hillingdon",243006
+"Hounslow",212341
+"Islington",175797
+"Kensington And Chelsea",158919
+"Kingston Upon Thames",147273
+"Lambeth",266169
+"Lewisham",248922
+"Merton",187908
+"Newham",243891
+"Redbridge",238635
+"Richmond Upon Thames",172335
+"Southwark",244866
+"Sutton",179768
+"Tower Hamlets",196106
+"Waltham Forest",218341
+"Wandsworth",260380
+"Westminster",181286
+"Bolton",261037
+"Bury",180608
+"Manchester",392819
+"Oldham",217273
+"Rochdale",205357
+"Salford",216103
+"Stockport",284528
+"Tameside",213043
+"Trafford",210145
+"Wigan",301415
+"Knowsley",150459
+"Liverpool",439473
+"St. Helens",176843
+"Sefton",282958
+"Wirral",312293
+"Barnsley",218063
+"Doncaster",286866
+"Rotherham",248175
+"Sheffield",513234
+"Gateshead",191151
+"Newcastle Upon Tyne",259536
+"North Tyneside",191659
+"South Tyneside",152785
+"Sunderland",280807
+"Birmingham",977087
+"Coventry",300848
+"Dudley",305155
+"Sandwell",282904
+"Solihull",199517
+"Walsall",253499
+"Wolverhampton",236582
+"Bradford",467665
+"Calderdale",192405
+"Kirklees",388567
+"Leeds",715402
+"Wakefield",315172
+"Central Bedfordshire",233661
+"Bedford",147911
+"Aylesbury Vale",165748
+"Chiltern",89228
+"South Bucks",61945
+"Wycombe",162105
+"Cambridge",108863
+"East Cambridgeshire",73214
+"Fenland",83519
+"Huntingdonshire",156954
+"South Cambridgeshire",130108
+"Chester",118210
+"Congleton",90655
+"Crewe And Nantwich",111007
+"Ellesmere Port & Neston",81672
+"Macclesfield",150155
+"Vale Royal",122089
+"Caradon",79649
+"Carrick",87865
+"Cornwall",499114
+"Kerrier",92517
+"North Cornwall",80509
+"Penwith",63012
+"Restormel",95562
+"Isles Of Scilly",2153
+"Allerdale",93492
+"Barrow-In-Furness",71980
+"Carlisle",100739
+"Copeland",69318
+"Eden",49777
+"South Lakeland",102301
+"Amber Valley",116471
+"Bolsover",71766
+"Chesterfield",98845
+"Derbyshire Dales",69469
+"Erewash",110099
+"High Peak",89433
+"North East Derbyshire",96940
+"South Derbyshire",81562
+"East Devon",125520
+"Exeter",111076
+"Mid Devon",69774
+"North Devon",87508
+"South Hams",81849
+"Teignbridge",120958
+"Torridge",58965
+"West Devon",48843
+"Christchurch",44865
+"East Dorset",83786
+"North Dorset",61905
+"Purbeck",44416
+"West Dorset",92360
+"Weymouth And Portland",63648
+"Chester-Le-Street",53692
+"Derwentside",85074
+"Easington",93993
+"Sedgefield",87206
+"Teesdale",24457
+"Wear Valley",61339
+"Eastbourne",89667
+"Hastings",85029
+"Lewes",92177
+"Rother",85428
+"Wealden",140023
+"Basildon",165668
+"Braintree",132179
+"Brentwood",68456
+"Castle Point",86608
+"Chelmsford",157072
+"Colchester",155796
+"Epping Forest",120896
+"Harlow",78768
+"Maldon",59418
+"Rochford",78489
+"Tendring",138539
+"Uttlesford",68946
+"Cheltenham",110013
+"Cotswold",80376
+"Forest Of Dean",79982
+"Gloucester",109885
+"Stroud",107898
+"Tewkesbury",76405
+"Basingstoke And Deane",152573
+"East Hampshire",109274
+"Eastleigh",116169
+"Fareham",107977
+"Gosport",76415
+"Hart",83505
+"Havant",116849
+"New Forest",169331
+"Rushmoor",90987
+"Test Valley",109801
+"Winchester",107222
+"Broxbourne",87054
+"Dacorum",137799
+"East Hertfordshire",128919
+"Hertsmere",94450
+"North Hertfordshire",116908
+"St Albans",129005
+"Stevenage",79715
+"Three Rivers",82848
+"Watford",79726
+"Welwyn Hatfield",97553
+"Ashford",102661
+"Canterbury",135278
+"Dartford",85911
+"Dover",104566
+"Gravesham",95717
+"Maidstone",138948
+"Sevenoaks",109305
+"Shepway",96238
+"Swale",122801
+"Thanet",126702
+"Tonbridge And Malling",107561
+"Tunbridge Wells",104030
+"Burnley",89542
+"Chorley",100449
+"Fylde",73217
+"Hyndburn",81496
+"Lancaster",133914
+"Pendle",89248
+"Preston",129633
+"Ribble Valley",53960
+"Rossendale",65652
+"South Ribble",103867
+"West Lancashire",108378
+"Wyre",105618
+"Blaby",90252
+"Charnwood",153462
+"Harborough",76559
+"Hinckley And Bosworth",100141
+"Melton",47866
+"North West Leicestershire",85503
+"Oadby And Wigston",55795
+"Boston",55750
+"East Lindsey",130447
+"Lincoln",85595
+"North Kesteven",94024
+"South Holland",76522
+"South Kesteven",124792
+"West Lindsey",79515
+"Breckland",121418
+"Broadland",118513
+"Great Yarmouth",90810
+"King's Lynn And West Norfolk",135345
+"North Norfolk",98382
+"Norwich",121550
+"South Norfolk",110710
+"Corby",53174
+"Daventry",71838
+"East Northamptonshire",76550
+"Kettering",81844
+"Northampton",194458
+"South Northamptonshire",79293
+"Wellingborough",72519
+"Alnwick",31029
+"Berwick-Upon-Tweed",25949
+"Blyth Valley",81265
+"Castle Morpeth",49001
+"Tynedale",58808
+"Wansbeck",61138
+"Craven",53620
+"Hambleton",84111
+"Harrogate",151336
+"Richmondshire",47010
+"Ryedale",50872
+"Scarborough",106243
+"Selby",76468
+"Ashfield",111387
+"Bassetlaw",107713
+"Broxtowe",107570
+"Gedling",111787
+"Mansfield",98181
+"Newark And Sherwood",106273
+"Rushcliffe",105599
+"Cherwell",131785
+"Oxford",134248
+"South Oxfordshire",128188
+"Vale Of White Horse",115627
+"West Oxfordshire",95640
+"Bridgnorth",52497
+"North Shropshire",57108
+"Oswestry",37308
+"Shrewsbury And Atcham",95850
+"South Shropshire",40410
+"Mendip",103869
+"Sedgemoor",105881
+"South Somerset",150969
+"Taunton Deane",102299
+"West Somerset",35075
+"Cannock Chase",92126
+"East Staffordshire",103770
+"Lichfield",93232
+"Newcastle-Under-Lyme",122030
+"South Staffordshire",105896
+"Stafford",120670
+"Staffordshire Moorlands",94489
+"Tamworth",74531
+"Babergh",83461
+"Forest Heath",55510
+"Ipswich",117069
+"Mid Suffolk",86837
+"St Edmundsbury",98193
+"Suffolk Coastal",115141
+"Waveney",112342
+"Elmbridge",121936
+"Epsom And Ewell",67059
+"Guildford",129701
+"Mole Valley",80287
+"Reigate And Banstead",126523
+"Runnymede",78033
+"Spelthorne",90390
+"Surrey Heath",80314
+"Tandridge",79267
+"Waverley",115665
+"Woking",89840
+"North Warwickshire",61860
+"Nuneaton And Bedworth",119132
+"Rugby",87453
+"Stratford-On-Avon",111484
+"Warwick",125931
+"Adur",59627
+"Arun",140759
+"Chichester",106450
+"Crawley",99744
+"Horsham",122088
+"Mid Sussex",127378
+"Worthing",97568
+"Kennet",74838
+"North Wiltshire",125372
+"Salisbury",114613
+"West Wiltshire",118150
+"Bromsgrove",87837
+"Malvern Hills",72172
+"Redditch",78807
+"Worcester",93353
+"Wychavon",112957
+"Wyre Forest",96981
