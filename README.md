@@ -10,4 +10,4 @@ Three files are missing from the "data/" directory and must be downloaded extern
 - The .shp file for Counties is available here (this should go in the "data/Counties/" subdirectory):
 - The .shp file for Districts is available here (this should go in the "data/Districts/" subdirectory):
 
-A step-by-step guide to help you learn how to use the spatial structure and resolution of your choice is included in the vignette.
+A step-by-step guide to help you learn how to use the spatial structure and resolution of your choice is included in the vignette. (coming soon)
