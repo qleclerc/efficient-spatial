@@ -8,5 +8,5 @@ Description: An epidemic modelling framework for all resolutions of gridded and 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: raster,maptools,ggplot2
+Imports: raster,maptools,sp,ggplot2
 RoxygenNote: 6.0.1
