@@ -22,14 +22,14 @@
 load_shp = function(){
 
 
-  assign("region_shp", maptools::readShapeSpatial("data/Regions/infuse_rgn_2011.shp"), envir=.GlobalEnv)
+  assign("region_shp", maptools::readShapeSpatial("data/Regions/england_regions.shp"), envir=.GlobalEnv)
 
-  assign("county_shp", maptools::readShapeSpatial("data/Counties/england_fct_2011.shp"), envir=.GlobalEnv)
+  assign("county_shp", maptools::readShapeSpatial("data/Counties/england_counties.shp"), envir=.GlobalEnv)
 
-  assign("district_shp", maptools::readShapeSpatial("data/Districts/england_lad_2011.shp"), envir=.GlobalEnv)
+  assign("district_shp", maptools::readShapeSpatial("data/Districts/england_districts.shp"), envir=.GlobalEnv)
 
 
-  assign("pop_data", read.csv("pop_data.csv", stringsAsFactors = F), envir=.GlobalEnv)
+  assign("pop_data", read.csv("data/pop_data.csv", stringsAsFactors = F), envir=.GlobalEnv)
 
 
 }
